@@ -28,6 +28,8 @@ export class UserService {
     return this.userModel.findByIdAndUpdate(
       {
         _id: id,
+      },
+      {
         firstName,
         lastName,
         username,
