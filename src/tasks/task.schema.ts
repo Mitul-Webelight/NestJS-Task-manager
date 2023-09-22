@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { User } from '../users/user.schema';
+import { taskStatusEnum } from './task.status.enum';
 
 export type TaskDocument = HydratedDocument<Task>;
 
@@ -12,17 +13,11 @@ export class Task {
   @Prop()
   description: string;
 
-  @Prop({ default: 'OPEN' })
+  @Prop({ default: taskStatusEnum.OPEN })
   status: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   assignedTo: User[];
-
-  @Prop()
-  createdAt?: Date;
-
-  @Prop()
-  updatedAt?: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

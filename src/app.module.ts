@@ -3,10 +3,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TaskModule } from './tasks/task.module';
 import { AuthModule } from './users/auth/auth.module';
 import { UserModule } from './users/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/task-manager'),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'src/.env' }),
+    MongooseModule.forRoot(process.env.MONGODB_URL),
     TaskModule,
     UserModule,
     AuthModule,

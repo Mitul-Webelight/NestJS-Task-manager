@@ -44,10 +44,8 @@ export class AuthService {
       const payload = { username: loginUserDto.username };
       return {
         access_token: this.jwtService.sign(payload, {
-          secret: 'NestJS-Learning',
+          secret: process.env.JWT_SERCRET_KEY,
         }),
-        message: 'Authentication successful',
-        statusCode: 200,
       };
     } catch (error) {
       throw new HttpException('Server Error', HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,7 +11,7 @@ export class LocalAuthGuard implements CanActivate {
   constructor(private jwtservice: JwtService) {}
   canActivate(context: ExecutionContext): any {
     const request = context.switchToHttp().getRequest();
-    const tokenHeader = request.header('Authorization');
+    const tokenHeader = request.header(process.env.AUTH_HEADER);
 
     if (!tokenHeader) {
       throw new HttpException(
@@ -23,7 +23,7 @@ export class LocalAuthGuard implements CanActivate {
     const token = tokenHeader.replace('Bearer ', '');
 
     const decoded = this.jwtservice.verify(token, {
-      secret: 'NestJS-Learning',
+      secret: process.env.JWT_SERCRET_KEY,
     });
     return decoded;
   }

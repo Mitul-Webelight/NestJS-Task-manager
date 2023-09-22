@@ -5,9 +5,11 @@ import { TaskService } from './tasks.service';
 import { Task, TaskSchema } from './task.schema';
 import { UserModule } from '../users/user.module';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'src/.env' }),
     MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
     UserModule,
   ],

@@ -28,23 +28,23 @@ export class UserController {
 
   @UseGuards(LocalAuthGuard)
   @Get()
-  async getAllUser(@Res() res: Response): Promise<void> {
+  async getAllUser(@Res() res: Response): Promise<any> {
     try {
       const getAllUser = await this.userService.getAll();
-      successRes(res, HttpStatus.OK, getAllUser);
+      return successRes(res, HttpStatus.OK, getAllUser);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @UseGuards(LocalAuthGuard)
   @Get('/:id')
-  async getUser(@Param('id') id: string, @Res() res: Response): Promise<void> {
+  async getUser(@Param('id') id: string, @Res() res: Response): Promise<any> {
     try {
       const getUser = await this.userService.getById(id);
-      successRes(res, HttpStatus.OK, getUser);
+      return successRes(res, HttpStatus.OK, getUser);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -54,23 +54,23 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const updateUser = await this.userService.update(id, updateUserDto);
-      successRes(res, HttpStatus.OK, updateUser);
+      return successRes(res, HttpStatus.OK, updateUser);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @UseGuards(LocalAuthGuard)
   @Delete('/:id')
-  async delete(@Param('id') id: string, @Res() res: Response): Promise<void> {
+  async delete(@Param('id') id: string, @Res() res: Response): Promise<any> {
     try {
       const deleteUser = await this.userService.delete(id);
-      successRes(res, HttpStatus.OK, deleteUser);
+      return successRes(res, HttpStatus.OK, deleteUser);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -78,12 +78,12 @@ export class UserController {
   async login(
     @Body() loginUserDto: LoginUserDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const userLogin = await this.authService.login(loginUserDto);
-      successRes(res, HttpStatus.OK, userLogin);
+      return successRes(res, HttpStatus.OK, userLogin);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -91,12 +91,12 @@ export class UserController {
   async signup(
     @Body() signupUserDto: SignupUserDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const userSignup = await this.authService.signup(signupUserDto);
-      successRes(res, HttpStatus.CREATED, userSignup);
+      return successRes(res, HttpStatus.CREATED, userSignup);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

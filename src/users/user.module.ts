@@ -6,9 +6,11 @@ import { User, UserSchema } from './user.schema';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { AuthService } from './auth/auth.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'src/.env' }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     BcryptModule,
     JwtModule,

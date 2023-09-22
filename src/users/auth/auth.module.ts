@@ -8,16 +8,18 @@ import { UserService } from '../user.service';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'src/.env' }),
     PassportModule.register({
-      defaultStrategy: 'jwt',
-      property: 'user',
+      defaultStrategy: process.env.DEFAULT_STRATEGY,
+      property: process.env.PASSPORT_PROPERTY,
       session: false,
     }),
     JwtModule.register({
-      secret: 'NestJS-Learning',
+      secret: process.env.JWT_SERCRET_KEY,
       // signOptions: { expiresIn: '1h' },
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),

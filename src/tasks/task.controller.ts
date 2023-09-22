@@ -26,12 +26,12 @@ export class TaskController {
 
   @UseGuards(LocalAuthGuard)
   @Get()
-  async getTasks(@Res() res: Response): Promise<void> {
+  async getTasks(@Res() res: Response): Promise<any> {
     try {
       const allTask = await this.taskService.getAll();
-      successRes(res, HttpStatus.OK, allTask);
+      return successRes(res, HttpStatus.OK, allTask);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -40,12 +40,12 @@ export class TaskController {
   async getTaskByID(
     @Param('id') id: string,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const getTask = await this.taskService.getByID(id);
-      successRes(res, HttpStatus.OK, getTask);
+      return successRes(res, HttpStatus.OK, getTask);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -54,12 +54,12 @@ export class TaskController {
   async create(
     @Body() createTaskDto: CreateTaskDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const addTask = await this.taskService.create(createTaskDto);
-      successRes(res, HttpStatus.CREATED, addTask);
+      return successRes(res, HttpStatus.CREATED, addTask);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -69,23 +69,23 @@ export class TaskController {
     @Param('id') id: ObjectId,
     @Body() updateTaskDto: UpdateTaskDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const updateTask = await this.taskService.update(id, updateTaskDto);
-      successRes(res, HttpStatus.OK, updateTask);
+      return successRes(res, HttpStatus.OK, updateTask);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
   @UseGuards(LocalAuthGuard)
   @Delete('/:id')
-  async delete(@Param('id') id: ObjectId, @Res() res: Response): Promise<void> {
+  async delete(@Param('id') id: ObjectId, @Res() res: Response): Promise<any> {
     try {
       const deleteTask = await this.taskService.delete(id);
-      successRes(res, HttpStatus.OK, deleteTask);
+      return successRes(res, HttpStatus.OK, deleteTask);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -95,15 +95,15 @@ export class TaskController {
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @Param('id') id: ObjectId,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const updateTaskStatus = await this.taskService.updateStatus(
         id,
         updateTaskStatusDto.newStatus,
       );
-      successRes(res, HttpStatus.OK, updateTaskStatus);
+      return successRes(res, HttpStatus.OK, updateTaskStatus);
     } catch (error) {
-      errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
+      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
