@@ -16,7 +16,7 @@ export class Task {
   @Prop({ default: taskStatusEnum.OPEN })
   status: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: process.env.REF }] })
   assignedTo: User[];
 }
 

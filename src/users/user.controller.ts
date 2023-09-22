@@ -27,17 +27,6 @@ export class UserController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Get()
-  async getAllUser(@Res() res: Response): Promise<any> {
-    try {
-      const getAllUser = await this.userService.getAll();
-      return successRes(res, HttpStatus.OK, getAllUser);
-    } catch (error) {
-      return errorRes(res, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @UseGuards(LocalAuthGuard)
   @Get('/:id')
   async getUser(@Param('id') id: string, @Res() res: Response): Promise<any> {
     try {

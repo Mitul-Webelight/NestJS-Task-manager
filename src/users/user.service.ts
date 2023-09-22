@@ -10,9 +10,6 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async getAll() {
-    return this.userModel.find();
-  }
   async getById(id: string): Promise<User> {
     const user = await this.userModel.findById(id);
     if (!user) {
@@ -21,8 +18,8 @@ export class UserService {
     return user;
   }
 
-  async findOne(username: string): Promise<User> {
-    return this.userModel.findOne({ username });
+  async findOne(email: string): Promise<User> {
+    return this.userModel.findOne({ email });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -30,6 +27,7 @@ export class UserService {
 
     return this.userModel.findByIdAndUpdate(
       {
+        _id: id,
         firstName,
         lastName,
         username,

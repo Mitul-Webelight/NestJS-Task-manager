@@ -12,6 +12,7 @@ import { SignupUserDto } from '../dto/signup-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../user.schema';
 import { Model } from 'mongoose';
+import { constant } from 'src/response/constant';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
   ) {}
 
   async validateUser(loginUserDto: LoginUserDto): Promise<any> {
-    const user = await this.userService.findOne(loginUserDto.username);
+    const user = await this.userService.findOne(loginUserDto.email);
     if (!user) {
       throw new UnauthorizedException(HttpStatus.UNAUTHORIZED);
     }
@@ -41,14 +42,17 @@ export class AuthService {
   async login(loginUserDto: LoginUserDto) {
     try {
       await this.validateUser(loginUserDto);
-      const payload = { username: loginUserDto.username };
+      const payload = { email: loginUserDto.email };
       return {
         access_token: this.jwtService.sign(payload, {
           secret: process.env.JWT_SERCRET_KEY,
         }),
       };
     } catch (error) {
-      throw new HttpException('Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        constant.ServerErr,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

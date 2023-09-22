@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { constant } from 'src/response/constant';
 @Injectable()
 export class LocalAuthGuard implements CanActivate {
   constructor(private jwtservice: JwtService) {}
@@ -14,10 +15,7 @@ export class LocalAuthGuard implements CanActivate {
     const tokenHeader = request.header(process.env.AUTH_HEADER);
 
     if (!tokenHeader) {
-      throw new HttpException(
-        'Authorization is missing',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException(constant.AuthErr, HttpStatus.BAD_REQUEST);
     }
 
     const token = tokenHeader.replace('Bearer ', '');
